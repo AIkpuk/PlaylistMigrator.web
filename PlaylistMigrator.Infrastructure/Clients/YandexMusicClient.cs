@@ -14,30 +14,47 @@ namespace PlaylistMigrator.Infrastructure.Clients
 
         public async Task<YandexPlaylistDto?> GetPlaylistAsync(string playlistUuid, CancellationToken cancellationToken = default)
         {
-            var playlist = await _httpClient.GetFromJsonAsync<YandexPlaylistDto?>($"playlist/{playlistUuid}?resumeStream=false&richTracks=false", cancellationToken);
+            var response = await _httpClient.GetFromJsonAsync<YandexApiResponse<YandexPlaylistDto>>(
+                $"playlist/{playlistUuid}?resumeStream=false&richTracks=false",
+                cancellationToken);
 
-            if (playlist != null)
+            if (response?.Result != null)
             {
-                return playlist;
+                return response.Result;
             }
-            throw new InvalidOperationException("The playlist is empty.");
+
+            throw new InvalidOperationException("Failed to retrieve playlist.");
         }
 
         public async Task<List<YandexTrackDto>> GetTracksAsync(List<string> trackIds, CancellationToken cancellationToken = default)
         {
-            var response = await _httpClient.PostAsJsonAsync("tracks", new YandexTracksRequestDto { TrackIds = trackIds }, cancellationToken);
+
+            var content = new FormUrlEncodedContent(
+                trackIds.Select(id =>
+                    new KeyValuePair<string, string>("trackIds", id))
+            );
+
+            var response = await _httpClient.PostAsync(
+                "tracks",
+                content,
+                cancellationToken);
             response.EnsureSuccessStatusCode();
 
-            var tracks = await response.Content.ReadFromJsonAsync<List<YandexTrackDto>>(cancellationToken: cancellationToken);
-            if (tracks != null)
+            string responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            var apiResponse = await response.Content
+                .ReadFromJsonAsync<YandexApiResponse<List<YandexTrackDto>>>(
+                    cancellationToken: cancellationToken);
+
+            if (apiResponse?.Result != null)
             {
-                return tracks;
+                return apiResponse.Result;
             }
 
             throw new InvalidOperationException("Failed to retrieve tracks.");
         }
 
-        public async Task<List<YandexTrackDto>> GetPlaylistTracksAsync(string playlistUuid,CancellationToken cancellationToken = default)
+        public async Task<YandexPlaylistDataDto> GetPlaylistDataAsync(string playlistUuid,CancellationToken cancellationToken = default)
         {
             YandexPlaylistDto? playlist = await GetPlaylistAsync(playlistUuid, cancellationToken);
 
@@ -53,7 +70,11 @@ namespace PlaylistMigrator.Infrastructure.Clients
 
             var tracks = await GetTracksAsync(trackIds, cancellationToken);
 
-            return tracks;
+            return new YandexPlaylistDataDto
+            {
+                Playlist = playlist,
+                Tracks = tracks
+            };
         }
 
 

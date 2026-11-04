@@ -1,5 +1,20 @@
-﻿@page "/playlists"
+﻿@inject ISourceMusicService SourceMusicService
+
+@page "/playlists"
+@using PlaylistMigrator.Application.Interfaces
+@using PlaylistMigrator.Domain.Entities
 
 <PageTitle>	Мои плейлисты </PageTitle>
 
 <h1></h1>
+
+@code
+{
+    private Playlist? _playlist;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _playlist = await SourceMusicService.GetPlaylistAsync("lk.87dd2fc2-93be-4bfa-b0be-af5ecb61c375", CancellationToken.None);
+        var x = 1;
+    }
+}

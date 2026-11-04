@@ -1,6 +1,8 @@
-using PlaylistMigrator.web.Components;
-using PlaylistMigrator.Infrastructure.Mappings.YandexMusic;
+using PlaylistMigrator.Application.Interfaces;
 using PlaylistMigrator.Infrastructure.Clients;
+using PlaylistMigrator.Infrastructure.Mappings.YandexMusic;
+using PlaylistMigrator.Infrastructure.Services.YandexMusic;
+using PlaylistMigrator.web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddTransient<YandexTrackMapper>();
 builder.Services.AddTransient<YandexAlbumMapper>();
 builder.Services.AddTransient<YandexArtistMapper>();
 builder.Services.AddTransient<YandexPlaylistMapper>();
+
+builder.Services.AddScoped<ISourceMusicService, YandexMusicSourceService>();
 
 builder.Services.AddHttpClient<YandexMusicClient>(client =>
 {
