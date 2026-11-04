@@ -1,0 +1,59 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+@implements IDisposable
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <span>@CurrentPage</span>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui" data-nosnippet>
+    An unhandled error has occurred.
+    <a href="." class="reload">Reload</a>
+    <span class="dismiss">🗙</span>
+</div>
+
+@code
+{
+    private string CurrentPage = string.Empty;
+    protected override void OnInitialized()
+    {
+        CurrentPage = GetPageTitle(Navigation.ToBaseRelativePath(Navigation.Uri));
+        Navigation.LocationChanged += OnLocalChanged;
+    }
+
+    private void OnLocalChanged(object? sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e)
+    {
+        CurrentPage = GetPageTitle(Navigation.ToBaseRelativePath(e.Location));
+        InvokeAsync(StateHasChanged);
+    }
+
+    private string GetPageTitle(string route)
+    {
+        return route switch
+        {
+            "" => "Dashboard",
+            "playlists" => "Мои плейлисты",
+            "migration" => "Миграция",
+            "settings" => "Настройки",
+            "history" => "История",
+            _=> "Unknown page"
+        };
+    }
+
+    public void Dispose()
+    {
+        Navigation.LocationChanged -= OnLocalChanged;
+    }
+}

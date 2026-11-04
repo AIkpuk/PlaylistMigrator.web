@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Playlist.Domain/PlaylistMigrator.Domain.csproj" Id="210f7801-35f3-40ba-b4b0-505a27f08f62" />
+  <Project Path="PlaylistMigrator.Aplication/PlaylistMigrator.Application.csproj" Id="bf5304bf-a2bc-4f72-9854-091b8ed081c6" />
+  <Project Path="PlaylistMigrator.Infrastructure/PlaylistMigrator.Infrastructure.csproj" Id="172af2e7-df56-42ad-959b-2a48d6e8752c" />
+  <Project Path="PlaylistMigrator.web/PlaylistMigrator.web.csproj" />
+</Solution>
