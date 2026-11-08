@@ -19,7 +19,8 @@ namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
                         Value = yandexAlbumDto.Id.ToString(),
                     }
                 },
-                Artists = new List<Artist>()
+                Artists = new List<Artist>(),
+                CoverUri = yandexAlbumDto.CoverUri
             };
 
             return album;

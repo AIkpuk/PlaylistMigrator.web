@@ -39,7 +39,9 @@ namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
                         Service = "YandexMusic",
                         Value = yandexTrackDto.Id.ToString(),
                     }
-                }
+                },
+                CoverUri = yandexTrackDto.CoverUri
+
             };
             return track;
         }

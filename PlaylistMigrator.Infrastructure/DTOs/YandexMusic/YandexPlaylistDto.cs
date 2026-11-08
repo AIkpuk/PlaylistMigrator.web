@@ -12,6 +12,8 @@ namespace PlaylistMigrator.Infrastructure.DTOs.YandexMusic
         public string Title { get; set; } = string.Empty;
         [JsonPropertyName("trackCount")]
         public int TrackCount { get; set; }
+        [JsonPropertyName("ogImage")]
+        public string? OgImage { get; set; }
         [JsonPropertyName("tracks")]
         public List<YandexPlaylistTrackDto> Tracks { get; set; } = new();
     }

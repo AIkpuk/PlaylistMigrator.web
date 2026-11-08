@@ -8,7 +8,7 @@ namespace PlaylistMigrator.Domain.Entities
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Title { get; set; } = string.Empty;
-        
+        public string? CoverUri { get; set; }
         public List<Artist> Artists { get; set; } = new();
         public List<ExternalId> ExternalIds { get; set; } = new List<ExternalId>();
     }

@@ -13,6 +13,8 @@ namespace PlaylistMigrator.Infrastructure.DTOs.YandexMusic
         public long? DurationMs { get; set; }
         [JsonPropertyName("artists")]
         public List<YandexArtistDto> Artists { get; set; } = new();
+        [JsonPropertyName("coverUri")]
+        public string? CoverUri { get; set; }
         [JsonPropertyName("albums")]
         public List<YandexAlbumDto> Albums { get; set; } = new();
     }

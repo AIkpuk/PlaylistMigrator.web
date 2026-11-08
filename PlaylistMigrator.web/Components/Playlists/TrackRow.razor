@@ -1,7 +1,13 @@
 ﻿@using PlaylistMigrator.Domain.Entities
 
+
 <div class="track-row">
     <span class="track-position">@Position</span>
+
+    @if (!string.IsNullOrEmpty(CoverUri))
+    {
+        <img class="track-cover" src="@CoverUri" alt="Обложка трека" />
+    }
 
     <div class="track-info">
         <span class="track-title">@PlaylistTrack.Track!.Title</span>
@@ -21,4 +27,15 @@
 
     [Parameter]
     public int Position { get; set; }
+
+    private string? CoverUri
+    {
+        get
+        {
+            var uri = PlaylistTrack.Track?.CoverUri
+                ?? PlaylistTrack.Track?.Album?.CoverUri;
+
+            return Helpers.ImageUrlHelper.GetImageUrl(uri);
+        }
+    }
 }

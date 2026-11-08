@@ -28,6 +28,7 @@ namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
                         Value = $"{yandexPlaylistDto.Uid}:{yandexPlaylistDto.Kind}"
                     }
                 },
+                OgImage = yandexPlaylistDto.OgImage,
                 PlaylistTracks = new List<PlaylistTrack>()
             };
 

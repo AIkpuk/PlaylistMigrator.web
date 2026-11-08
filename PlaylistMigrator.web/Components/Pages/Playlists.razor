@@ -13,29 +13,34 @@
 else
 {
     <div class="playlist-content">
-        <div class="playlist-header">
-            <div class="playlist-cover">
-                ♥
+        <div class="playlist-card">
+
+            <div class="playlist-header">
+
+                @if (!string.IsNullOrEmpty(CoverUri))
+                {
+                    <img class="track-cover" src="@CoverUri" alt="Обложка трека" />
+                }
+
+                <div class="playlist-info">
+                    <span class="playlist-source">YANDEX MUSIC</span>
+                    <h2>Мне нравится</h2>
+                    <span>@_playlist.PlaylistTracks.Count треков</span>
+                </div>
             </div>
 
-            <div class="playlist-info">
-                <span class="playlist-source">YANDEX MUSIC</span>
-                <h2>Мне нравится</h2>
-                <span>@_playlist.PlaylistTracks.Count треков</span>
+            <div class="track-columns">
+                <span>НАЗВАНИЕ</span>
+                <span>ДЛИТЕЛЬНОСТЬ</span>
             </div>
+
+            @for (int i = 0; i < _playlist.PlaylistTracks.Count; i++)
+            {
+                <TrackRow PlaylistTrack="_playlist.PlaylistTracks[i]"
+                          Position="@(i + 1)" />
+            }
+
         </div>
-
-
-        <div class="track-columns">
-            <span>НАЗВАНИЕ</span>
-            <span>ДЛИТЕЛЬНОСТЬ</span>
-        </div>
-
-        @for (int i = 0; i < _playlist.PlaylistTracks.Count; i++)
-        {
-            <TrackRow PlaylistTrack="_playlist.PlaylistTracks[i]"
-                      Position="@(i + 1)" />
-        }
     </div>
 }
 <h1></h1>
@@ -48,6 +53,16 @@ else
     {
         _playlist = await SourceMusicService.GetPlaylistAsync("lk.87dd2fc2-93be-4bfa-b0be-af5ecb61c375", CancellationToken.None);
 
-        var x = 1;
+        //https://music.yandex.ru/album/36888682?utm_source=web&utm_medium=copy_link
     }
+
+
+    private string? CoverUri
+    {
+        get
+        {
+            return Helpers.ImageUrlHelper.GetImageUrl(_playlist?.OgImage);
+        }
+    }
+
 }
