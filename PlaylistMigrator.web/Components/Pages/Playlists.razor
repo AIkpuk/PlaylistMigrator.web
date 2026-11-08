@@ -3,9 +3,41 @@
 @page "/playlists"
 @using PlaylistMigrator.Application.Interfaces
 @using PlaylistMigrator.Domain.Entities
+@using PlaylistMigrator.web.Components.Playlists
 
 <PageTitle>	Мои плейлисты </PageTitle>
+@if (_playlist == null)
+{
+    <p>Загрузка плейлиста...</p>
+}
+else
+{
+    <div class="playlist-content">
+        <div class="playlist-header">
+            <div class="playlist-cover">
+                ♥
+            </div>
 
+            <div class="playlist-info">
+                <span class="playlist-source">YANDEX MUSIC</span>
+                <h2>Мне нравится</h2>
+                <span>@_playlist.PlaylistTracks.Count треков</span>
+            </div>
+        </div>
+
+
+        <div class="track-columns">
+            <span>НАЗВАНИЕ</span>
+            <span>ДЛИТЕЛЬНОСТЬ</span>
+        </div>
+
+        @for (int i = 0; i < _playlist.PlaylistTracks.Count; i++)
+        {
+            <TrackRow PlaylistTrack="_playlist.PlaylistTracks[i]"
+                      Position="@(i + 1)" />
+        }
+    </div>
+}
 <h1></h1>
 
 @code
@@ -15,6 +47,7 @@
     protected override async Task OnInitializedAsync()
     {
         _playlist = await SourceMusicService.GetPlaylistAsync("lk.87dd2fc2-93be-4bfa-b0be-af5ecb61c375", CancellationToken.None);
+
         var x = 1;
     }
 }

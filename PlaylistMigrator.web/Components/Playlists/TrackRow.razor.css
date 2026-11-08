@@ -1,0 +1,41 @@
+.track-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: relative;
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .track-row:hover {
+        transform: scale(1.02);
+        background-color: #303030;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+.track-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.track-title {
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.track-artist {
+    font-size: 13px;
+    color: #999;
+}
+
+.track-duration {
+    color: #999;
+    font-size: 13px;
+    flex-shrink: 0;
+}

@@ -1,0 +1,24 @@
+﻿@using PlaylistMigrator.Domain.Entities
+
+<div class="track-row">
+    <span class="track-position">@Position</span>
+
+    <div class="track-info">
+        <span class="track-title">@PlaylistTrack.Track!.Title</span>
+        <span class="track-artist">
+            @string.Join(", ", PlaylistTrack.Track.Artists.Select(a => a.Name))
+        </span>
+    </div>
+
+    <span class="track-duration">
+        @PlaylistTrack.Track!.Duration.ToString(@"m\:ss")
+    </span>
+</div>
+
+@code {
+    [Parameter]
+    public PlaylistTrack PlaylistTrack { get; set; } = null!;
+
+    [Parameter]
+    public int Position { get; set; }
+}
