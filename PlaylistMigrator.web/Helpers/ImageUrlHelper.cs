@@ -10,12 +10,6 @@
                 {
                     uri = "https://" + uri;
                 }
-                
-                if (uri.Contains("%%"))
-                {
-                    uri = uri.Replace("%%", "100x100");
-                }
-                
                 return uri;
             }
             return null;

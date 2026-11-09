@@ -1,10 +1,12 @@
 ﻿using PlaylistMigrator.Domain.Entities;
 using PlaylistMigrator.Infrastructure.DTOs.YandexMusic;
+using PlaylistMigrator.Infrastructure.ImageUrls;
 
 namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
 {
     public class YandexPlaylistMapper
     {
+        private readonly string _serviceName = "YandexMusic";
         private readonly YandexTrackMapper _yandexTrackMapper;
 
         public YandexPlaylistMapper(YandexTrackMapper yandexTrackMapper)
@@ -24,11 +26,11 @@ namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
                 {
                     new ExternalId
                     {
-                        Service = "YandexMusic",
+                        Service = _serviceName,
                         Value = $"{yandexPlaylistDto.Uid}:{yandexPlaylistDto.Kind}"
                     }
                 },
-                OgImage = yandexPlaylistDto.OgImage,
+                OgImage = ImageUrlService.GetImageUrl(_serviceName, yandexPlaylistDto.OgImage, 100),
                 PlaylistTracks = new List<PlaylistTrack>()
             };
 

@@ -1,10 +1,12 @@
 ﻿using PlaylistMigrator.Domain.Entities;
 using PlaylistMigrator.Infrastructure.DTOs.YandexMusic;
+using PlaylistMigrator.Infrastructure.ImageUrls;
 
 namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
 {
     public class YandexTrackMapper
     {
+        private readonly string _serviceName = "YandexMusic";
         private readonly YandexAlbumMapper _albumMapper;
         private readonly YandexArtistMapper _artistMapper;
 
@@ -19,7 +21,6 @@ namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
             var albumDto = yandexTrackDto.Albums?.FirstOrDefault();
             var album = albumDto != null ? _albumMapper.Map(albumDto) : null;
 
-            var artistDtos = yandexTrackDto.Artists;
             var artists =  yandexTrackDto.Artists?.Select(_artistMapper.Map).ToList() ?? new List<Artist>();
 
             Track track = new Track
@@ -36,11 +37,11 @@ namespace PlaylistMigrator.Infrastructure.Mappings.YandexMusic
                 {
                     new ExternalId
                     {
-                        Service = "YandexMusic",
+                        Service = _serviceName,
                         Value = yandexTrackDto.Id.ToString(),
                     }
                 },
-                CoverUri = yandexTrackDto.CoverUri
+                CoverUri = ImageUrlService.GetImageUrl(_serviceName, yandexTrackDto.CoverUri,100)
 
             };
             return track;
